@@ -8,12 +8,12 @@ on:
     types: [opened, synchronize, reopened]
 
 jobs:
-  analyze:
-    name: SonarCloud Scan
+  sonarcloud:
+    name: Analyze with SonarCloud
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Set up Java (required by SonarCloud)
@@ -22,10 +22,7 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Run SonarCloud scan
-        uses: SonarSource/sonarcloud-github-action@master
-        with:
-          organization: "vladyslav"  # Назва твоєї організації на SonarCloud
-          projectKey: "Vladyslav_simple_site_1"
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarqube-scan-action@v5.0.0
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
