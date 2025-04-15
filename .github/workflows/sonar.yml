@@ -1,0 +1,31 @@
+name: SonarCloud Analysis
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  analyze:
+    name: SonarCloud Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Java (required by SonarCloud)
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Run SonarCloud scan
+        uses: SonarSource/sonarcloud-github-action@master
+        with:
+          organization: "vladyslav"  # Назва твоєї організації на SonarCloud
+          projectKey: "Vladyslav_simple_site_1"
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
